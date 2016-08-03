@@ -14,7 +14,7 @@ $(function() {
       if(parseInt(data["inventory"]) === 0 ){
         inventoryText = "<strong>Sold Out</strong>";
       }
-      var descriptionText = "<p>" + data["description"] + "</p><p>" + inventoryText + "</p>";
+      var descriptionText = "<p>" + data["description"] + "</p><p>" + inventoryText + "</p>" + "<p>Orders: " + data["orders"].map(x => x.id + ": " + x.products.join(", ")).join("; ") + "</p>";
       $("#product-" + id).html(descriptionText);
     });
   });
