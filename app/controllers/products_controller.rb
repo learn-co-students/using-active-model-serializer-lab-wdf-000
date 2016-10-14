@@ -17,7 +17,7 @@ class ProductsController < ApplicationController
     respond_to do |f|
       f.html { render :show }
       # format.json { render json: @product.as_json(root: true)}
-      f.json { render :json => @product }
+      f.json { render json: @product }
     end
   end
 
