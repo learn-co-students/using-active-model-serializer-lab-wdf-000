@@ -18,6 +18,12 @@
         }
         var descriptionText = "<p>" + data.description + "</p><p>" + inventoryText + "</p>";
         $("#product-" + id).html(descriptionText);
+
+        // display orders
+        data.orders.forEach(function(order) {
+          let html = "<p><strong>Order ID:</strong> " + order.id + " --- <strong>Created at:</strong> " + order.created_at + "</p><hr>";
+          $("#product-" + id).append(html);
+        });
       });
     });
   });
