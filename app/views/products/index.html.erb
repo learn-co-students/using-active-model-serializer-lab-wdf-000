@@ -10,9 +10,10 @@ $(function() {
   $(".js-more").on("click", function() {
     var id = $(this).data("id");
     $.get("/products/" + id + ".json", function(data) {
-      var inventoryText = data["inventory"] > 0 ? "Available" : "Sold Out";
-      let productOrders = data["orders"]
-      var descriptionText = "<p>" + data["description"] + "</p><p>" + inventoryText + "</p>";
+      let product = data["product"];
+      let inventoryText = product["inventory"] > 0 ? "Available" : "Sold Out";
+      let productOrders = product["orders"];
+      let descriptionText = "<p>" + product["description"] + "</p><p>" + inventoryText + "</p>";
       $("#product-" + id).html(descriptionText);
       // itterate over orders appending ul with li's
       $.each( productOrders, function(index, value) {
