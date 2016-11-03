@@ -21,7 +21,9 @@
 
         // display orders
         data.orders.forEach(function(order) {
-          let html = "<p><strong>Order ID:</strong> " + order.id + " --- <strong>Created at:</strong> " + order.created_at + "</p><hr>";
+          let html = "<p><strong>Order ID:</strong> " + order.id + " --- <strong>Created at:</strong> " + order.created_at + "</p><p>Products in this order:</p><ul>";
+          order.products.forEach( product => html+= "<li>" + product.name + "</li>" );
+          html += "</ul><hr>"
           $("#product-" + id).append(html);
         });
       });
