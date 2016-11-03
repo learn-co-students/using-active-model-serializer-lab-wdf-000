@@ -15,16 +15,27 @@ $(function() {
       let productOrders = product["orders"];
       let descriptionText = "<p>" + product["description"] + "</p><p>" + inventoryText + "</p>";
       $("#product-" + id).html(descriptionText);
-      // itterate over orders appending ul with li's
-      $.each( productOrders, function(index, value) {
-        let list = $("<ul>" +
-                      "<li>" + this.id + "</li>" +
-                      "<li>" + this.created_at + "</li>" +
-                      "<li>" + this.products.map(function(obj){return obj.name}).join(", ") + "</li>" +
-                    "</ul>");
-        $("#product-" + id).append(list);
-      });
+
+      // orderInfoList itterates over productOrders building a list
+      $("#product-" + id).append(orderInfoList(productOrders));    
     });
   });
 });
+
+function orderInfoList(productOrders) {
+  let list = $("<ul></ul>")
+  $.each( productOrders, function(index, value) {
+    list.append(
+          "<li>" + this.id + "</li>" +
+          "<li>" + this.created_at + "</li>" +
+          // orderProductNames returns joined product names
+          "<li>" + orderProductNames(this.products) + "</li>"
+          );
+  });
+  return list;
+}
+
+function orderProductNames(orderProducts) {
+  return orderProducts.map(function(obj){return obj.name}).join(", ");
+}
 </script>
