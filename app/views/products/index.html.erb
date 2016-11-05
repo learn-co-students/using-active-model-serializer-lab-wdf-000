@@ -9,16 +9,36 @@
 $(function() {
   $(".js-more").on("click", function() {
     var id = $(this).data("id");
-    $.get("/products/" + id + "/description", function(description) {
-      $.get("/products/" + id + "/inventory", function(inventory) {
+    $.get("/products/" + id + ".json", function(data) {
+      var product = data["product"];
+      // $.get("/products/" + id + ".json", function(inventory) {
+      //   $.get("/products/" + id + ".json", function(order) {
         var inventoryText = "<strong>Available</strong>";
-        if(inventory === "false"){
-          inventoryText = "<strong>Sold Out</strong>";
-        }
-        var descriptionText = "<p>" + description + "</p><p>" + inventoryText + "</p>";
+        // debugger;
+        if(product.inventory === 0){
+          inventoryText = "<strong>Sold Out</strong>";  }
+        var descriptionText = "<p>" + product.description + "</p><p>" + inventoryText + "</p>";
         $("#product-" + id).html(descriptionText);
-      });
+        $("#product-" + id).append(ordersList(product["orders"]))
+      // })
+      // })
     });
   });
 });
+
+function ordersList(orders) {
+  let list = $("<ul></ul>")
+  $.each(orders, function(index, value) {
+    list.append( "<li>" + this.id + "</li>" + "<li>" + this.created_at + "</li>" + "<li>" + orderProducts(this.products) + "</li>");
+  });
+  return list;
+}
+
+function orderProducts(products) {
+  return products.map(function (item) {
+    return item.name
+  }).join(", ");
+}
+
+
 </script>
