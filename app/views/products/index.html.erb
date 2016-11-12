@@ -14,6 +14,7 @@
 $(function() {
   $(".js-more").on("click", function() {
     var id = $(this).data("id");
+
     $.get("/products/" + id + ".json", function(data) {
       var description = data["product"]["description"];
       var inventoryStatus = "Available"
@@ -21,15 +22,11 @@ $(function() {
         inventoryStatus = "Sold Out"}
         var result = data["product"]["orders"].map(order => order["products"].map(product => product["name"]));
       var result = result.join(", ")
-       $('#productDescription').html(description + "<br>" + inventoryStatus + "<br>" + result);
+       $('.productDescription').html(description + "<br>" + inventoryStatus + "<br>" + result);
 
 
 
     });
-
-
-
-
 
   });
 
