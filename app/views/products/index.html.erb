@@ -3,22 +3,33 @@
   <h3><%= product.name %></h3>
   <div id="product-<%= product.id %>"><%= truncate(product.description) %></div>
   <button class="js-more" data-id="<%= product.id %>">More Info</button>
+  <ul id="product-<%= product.id %>-orders">
+  </ul>
 <% end %>
 
 <script type="text/javascript" charset="utf-8">
 $(function() {
   $(".js-more").on("click", function() {
     var id = $(this).data("id");
-    $.get("/products/" + id + "/description", function(description) {
-      $.get("/products/" + id + "/inventory", function(inventory) {
-        var inventoryText = "<strong>Available</strong>";
-        if(inventory === "false"){
-          inventoryText = "<strong>Sold Out</strong>";
-        }
-        var descriptionText = "<p>" + description + "</p><p>" + inventoryText + "</p>";
-        $("#product-" + id).html(descriptionText);
-      });
-    });
+    $.get("/products/" + nextId + ".json", function(data) {
+      // console.log(data);
+      var product = data;
+      var inventoryText = "<strong>Available</strong>";
+      if(product["inventory"] === "false"){
+        inventoryText = "<strong>Sold Out</strong>";
+      }
+      var descriptionText = "<p>" + product["description"] + "</p><p>" + inventoryText + "</p>";
+      var orders = product["orders"].map(function(order) {
+        return order["products"].map(function(product) {
+          return product["name"];
+        });
+       });
+
+     var ordersText = "Orders: <ul><li>" + orders.join("</li><li>") + "</li></ul>"
+
+
+      $("#product-" + id).html(descriptionText + ordersText);
+    }
   });
 });
 </script>
