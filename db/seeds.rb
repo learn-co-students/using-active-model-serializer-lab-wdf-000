@@ -7,6 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 Order.destroy_all
+OrderedProduct.destroy_all
 Invoice.destroy_all
 Customer.destroy_all
 Product.destroy_all
