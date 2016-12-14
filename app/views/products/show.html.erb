@@ -1,6 +1,6 @@
 <a href="#" class="js-next" data-id="<%=@product.id%>">Next Product</a>
 <h1 class="productName"><%= @product.name %></h1>
-<p class="productInventory"><%= @product.inventory %></p>
+<p class="productInventory"><%= @product.inventory < 1 ? "Sold Out" : "Available" %></p>
 <p class="productPrice"><%= @product.price %></p>
 <p class="productDescription"><%= @product.description %></p>
 
@@ -9,14 +9,17 @@ $(function () {
   $(".js-next").on("click", function() {
     var nextId = parseInt($(".js-next").attr("data-id")) + 1;
     $.get("/products/" + nextId + ".json", function(data) {
+      debugger;
       $(".productName").text(data["name"]);
       $(".productPrice").text(data["price"]);
       $(".productDescription").text(data["description"]);
-      $(".productInventory").text(data["inventory"]);
+      $(".productInventory").text("Available");
+      if (data["inventory"] < 1) {
+        $(".productInventory").text("Sold Out");
+      }
       // re-set the id to current on the link
       $(".js-next").attr("data-id", data["id"]);
     });
   });
 });
 </script>
-
