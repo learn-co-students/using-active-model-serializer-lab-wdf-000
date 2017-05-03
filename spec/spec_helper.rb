@@ -1,3 +1,8 @@
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+
 RSpec.configure do |config|
 
   config.expect_with :rspec do |expectations|
