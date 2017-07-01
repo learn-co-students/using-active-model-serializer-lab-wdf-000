@@ -6,19 +6,27 @@
 <% end %>
 
 <script type="text/javascript" charset="utf-8">
-$(function() {
-  $(".js-more").on("click", function() {
-    var id = $(this).data("id");
-    $.get("/products/" + id + "/description", function(description) {
-      $.get("/products/" + id + "/inventory", function(inventory) {
+  $(function() {
+    $(".js-more").on("click", function() {
+      var id = $(this).data("id");
+      $.get("/products/" + id + ".json", function(data) {
+        var data = data.product;
         var inventoryText = "<strong>Available</strong>";
-        if(inventory === "false"){
+//debugger
+        if(data.inventory <= 0){
           inventoryText = "<strong>Sold Out</strong>";
         }
-        var descriptionText = "<p>" + description + "</p><p>" + inventoryText + "</p>";
+        var descriptionText = "<p>" + data.description + "</p><p>" + inventoryText + "</p>";
         $("#product-" + id).html(descriptionText);
+
+        // display orders
+        data.orders.forEach(function(order) {
+          let html = "<p><strong>Order ID:</strong> " + order.id + " --- <strong>Created at:</strong> " + order.created_at + "</p><p>Products in this order:</p><ul>";
+          order.products.forEach( product => html+= "<li>" + product.name + "</li>" );
+          html += "</ul><hr>"
+          $("#product-" + id).append(html);
+        });
       });
     });
   });
-});
 </script>
