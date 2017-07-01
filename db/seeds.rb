@@ -17,6 +17,10 @@ products.each do |p|
   Product.create(name: p, price: Faker::Number.between(1,1500), inventory: [0,1,2,3].sample, description: Faker::Lorem.paragraph)
 end
 
+Product.all.each do |product|
+  product.update(description: Faker::Lorem.paragraph)
+end
+
 5.times do
   Customer.create(:name => Faker::Name.name)
 end
